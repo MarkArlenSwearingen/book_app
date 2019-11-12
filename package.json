@@ -1,0 +1,25 @@
+{
+  "name": "book_app",
+  "version": "1.0.0",
+  "description": "Book Shelf from Google Book API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkArlenSwearingen/book_app.git"
+  },
+  "author": "Mark Swearingen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarkArlenSwearingen/book_app/issues"
+  },
+  "homepage": "https://github.com/MarkArlenSwearingen/book_app#readme",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "superagent": "^5.1.0"
+  }
+}
