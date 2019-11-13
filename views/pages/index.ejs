@@ -8,29 +8,33 @@
   <link rel="stylesheet" href=".\styles\base.css">
 </head>
 <body>
+
   <h1>Hello World this is Mark's Book_App</h1>
 
   <main>
     <h4>Search by title or author</h4>
     <form action="/searches" method="post">
       <input type="text" name="search" placeholder="Please enter a title or an author" required>
+  </section>
+    <h4>Search by Title or Author</h4>
+    <form action="/searches" method="post">
+      <input type="text" name="search" placeholder="Enter a title or author" required>
+
       <fieldset>
         <label for="title">
           <span>Title</span>
           <input type="radio" name="search" value="title" required>
-         </label>
+        </label>
       </fieldset>
       <fieldset>
-         <label for="author">
+        <label for="author">
           <span>Author</span>
-          <input type="radio", name="search" value="author" required>
-         </label>
+          <input type="radio" name="search" value="author" required>
+        </label>
       </fieldset>
-      <button type="submit">Search the Google Books API by title or author</button>
+      <button type="submit">Search the Google Books API</button>
     </form>
   </main>
-  <!-- window.addEventListener("load", function(){
-    // ....
-}); -->
+
 </body>
 </html>

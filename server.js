@@ -19,6 +19,9 @@ app.set('view engine', 'ejs');
 //API Route
 app.get('/' ,newSearch);//route for index.ejs, renders the search form
 
+
+//new search for Google API
+
 app.post('/searches', createSearch);
 
 //Helper functions
@@ -52,6 +55,20 @@ function createSearch(request,response){
     .then(results => response.render ('pages/searches/show', {searchResults: results}))
 
   //add error handling
+}
+
+function createSearch(request,response){
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  //   console.log(request.body);
+  // console.log(request.body.search);
+
+  if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
+  if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
+
+  superagent.get(url)
+    .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
+    .then(results => response.render('pages/searches/show'), {searchResults: results});
+    // .then(results => console.log(results));
 }
 
 
