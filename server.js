@@ -19,13 +19,28 @@ app.set('view engine', 'ejs');
 //API Route
 app.get('/' ,newSearch);//route for index.ejs, renders the search form
 
-// app.post('/searches', createSearch);
+//new search for Google API
+app.post('/searches', createSearch);
 
 //Helper functions
 //newSearch function to test index.ejs per kanban feature 1
 function newSearch(request, response) {
   response.render('pages/index');
 };
+
+function createSearch(request,response){
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  //   console.log(request.body);
+  // console.log(request.body.search);
+
+  if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
+  if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
+
+  superagent.get(url)
+    .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
+    .then(results => response.render('pages/searches/show'), {searchResults: results});
+    // .then(results => console.log(results));
+}
 
 
 app.get('/', (reg,res) => res.send('Book_App by Mark Swearingen'));
