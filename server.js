@@ -30,8 +30,14 @@ function Book(info) {
 
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
 
+  //convert non-secure http to secure https
+  let httpRegex = /^(http:\/\/)/g;
+
   this.title = info.title || 'No title available';
   this.author = info.author || 'No Author available';
+  this.isbn = info.industriesIdentifier? info.industryIdentifier[0].identifier: 'No ISBN Number'
+  this.image_url = info.description? info.imageLinks? info.imageLinks.smallThumbnail.replace(httpRegex, 'https://'): placeholderImage: this.description = info.description? info.description: 'No description'
+  this.id = info.industryIdentifier? info.industryIdentifier[0].identifier : ''
 }
 
 //newSearch function to test index.ejs per kanban feature 1
@@ -67,7 +73,7 @@ function createSearch(request,response){
 
   superagent.get(url)
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
-    .then(results => response.render('pages/searches/show'), {searchResults: results});
+    .then(results => response.render('pages/searches/show', {searchResults: results}))
     // .then(results => console.log(results));
 }
 
