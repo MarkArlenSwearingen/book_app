@@ -1,14 +1,14 @@
-DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS books;
 
-CREATE TABLE tasks (
+CREATE TABLE books (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255),
+  author VARCHAR(255),
+  ISBN VARCHAR(255),
+  image_url VARCHAR(255),
   description TEXT,
-  contact VARCHAR(255),
-  status VARCHAR(255),
-  category VARCHAR(255),
-  due DATE NOT NULL DEFAULT NOW()
-
+  bookshelf TEXT
 );
 
-INSERT INTO tasks
+
+
