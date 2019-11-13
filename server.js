@@ -63,7 +63,7 @@ function getBooks() {
   
   // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
   
-  let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book'];
+  let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
 
   //render the books on an EJS page
 
@@ -74,6 +74,19 @@ function createBook() {
   //create a SQL statement to insert book
   //return id of book back to calling function
 
+  let {title, author, isbn, image_url, description} = request.body;
+  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
+
+  let values= (title, author, isbn, image_url, description, normalizedBookshelf);
+
+  return clientInformation.query(SQL, values)
+    .then( () => {
+        SQL = 'SELECT * FROM books WHERE ISBN = $1';
+        values  = [request.body.isbn]'
+        return client.query(SQL, values)
+        .then (result=> response.redirect('/books/$(result.rows(0).id}'))
+    }
+    )
 }
 
 function getOneBook() {
