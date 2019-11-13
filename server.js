@@ -58,17 +58,25 @@ function createSearch(request, response) {
 
 function getBooks() {
   //create a SQL statement to get all books in the the database that was saved previously
+  
+  let SQL = Select * from books;
+  
+  // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
+  
+  let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book'];
+
   //render the books on an EJS page
+
   //catch any errors
 }
 
-function createBook(){
+function createBook() {
   //create a SQL statement to insert book
   //return id of book back to calling function
 
 }
 
-function getOneBook(){
+function getOneBook() {
   //use the id passed in from the front-end (ejs form) 
 
 }
