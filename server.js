@@ -28,6 +28,7 @@ function Book(info) {
   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
 
   this.title = info.title || 'No title available';
+  this.author = info.author || 'No Author available';
 }
 
 //newSearch function to test index.ejs per kanban feature 1
