@@ -19,14 +19,43 @@ app.set('view engine', 'ejs');
 //API Route
 app.get('/' ,newSearch);//route for index.ejs, renders the search form
 
+
 //new search for Google API
+
 app.post('/searches', createSearch);
 
 //Helper functions
+//Constructor function per kanban feature 2
+function Book(info) {
+
+  const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+
+  this.title = info.title || 'No title available';
+  this.author = info.author || 'No Author available';
+}
+
 //newSearch function to test index.ejs per kanban feature 1
 function newSearch(request, response) {
   response.render('pages/index');
-};
+}
+
+//createSearch funtion for submtin API request for search by author or title Kanban feature 2
+function createSearch(request,response){
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+
+  if (request.body.search[1] === 'title'){
+    url += `+intitle:${request.body.search[0]}`;
+  }
+  if(request.body.search[1] === 'author'){
+    url += `+inauthor:${request.body.search[0]}`;
+  }
+
+  superagent.get(url)
+    .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volume.info)))
+    .then(results => response.render ('pages/searches/show', {searchResults: results}))
+
+  //add error handling
+}
 
 function createSearch(request,response){
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
