@@ -66,9 +66,9 @@ function getBooks(request, response) {
   let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
 
   //render the books on an EJS page
-  return client.query(SQL);
+  return client.query(SQL)
     .then result => {
-    } res.render('pages/index.ejs', {results: result.rows})  //define results varaible
+    } res.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
 
   //catch any errors
   .catch(err => handleError(err, message))
