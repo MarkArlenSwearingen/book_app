@@ -3,14 +3,22 @@
 // Application Dependencies
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
+require('dotenv').config();
 
 // Application Setup
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Application Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+
+// Database
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+client.on('error', err => console.log(err));
 
 // Set the view engine for server-side templating
 app.set('view engine', 'ejs');
@@ -19,8 +27,8 @@ app.set('view engine', 'ejs');
 app.get('/', getBooks) //define route to get all books
 app.get('/searches/new', newSearch);
 app.post('/searches', createSearch);
-app.post('/books', createBook)
-app.get('/books/:id', getOneBook);
+// app.post('/books', createBook)
+// app.get('/books/:id', getOneBook);
 
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -67,42 +75,42 @@ function getBooks(request, response) {
 
   //render the books on an EJS page
   return client.query(SQL)
-    .then result => {
-    } res.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
-
+    .then (result => {
+      response.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
+    })
   //catch any errors
   .catch(err => handleError(err, message))
 }
 
-function createBook() {
-  //create a SQL statement to insert book
-  //return id of book back to calling function
+// function createBook() {
+//   //create a SQL statement to insert book
+//   //return id of book back to calling function
 
-  let {title, author, isbn, image_url, description} = request.body;
-  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
+//   let {title, author, isbn, image_url, description} = request.body;
+//   let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
 
-  let values= (title, author, isbn, image_url, description, normalizedBookshelf);
+//   let values= (title, author, isbn, image_url, description, normalizedBookshelf);
 
-  return clientInformation.query(SQL, values)
-    .then( () => {
-        SQL = 'SELECT * FROM books WHERE ISBN = $1';
-        values  = [request.body.isbn]'
-        return client.query(SQL, values)
-        .then (result=> response.redirect('/books/$(result.rows(0).id}'))
-    }
-    )
-}
+//   return clientInformation.query(SQL, values)
+//     .then( () => {
+//         SQL = 'SELECT * FROM books WHERE ISBN = $1';
+//         values  = [request.body.isbn];
+//         return client.query(SQL, values)
+//         .then (result=> response.redirect('/books/$(result.rows(0).id}'))
+//     }
+//     )
+// }
 
-function getOneBook(request, response) {
-  //use the id passed in from the front-end (ejs form) 
-//get bookshelves
-  let SQL = 'SELECT * FROM books WHERE ID = $1'
-  let values = 
-  client.query(SQL, values)
-  .then(result => response.render('pages/books/show' {books: result.row(0), bookshelves: shelves.rows})
-  )
-  .catch(handleError);
-}
+// function getOneBook(request, response) {
+//   //use the id passed in from the front-end (ejs form)
+// //get bookshelves
+//   let SQL = 'SELECT * FROM books WHERE ID = $1'
+//   let values = 
+//   client.query(SQL, values)
+//     .then(result => response.render('pages/books/show' , {books: result.row(0), bookshelves: shelves.rows})
+//     )
+//     .catch(handleError);
+// }
 
 function handleError(error, response) {
   response.render('pages/error', { error: error });

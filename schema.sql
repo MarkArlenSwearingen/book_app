@@ -12,5 +12,5 @@ CREATE TABLE books (
 
 
 
-INSERT INTO books (title, author, ISBN, image_url, description, bookshelf) 
-VALUES ('Lab 12', 'Mr. Swearingen', '23434kjlkj', 'https://via.placeholder.com/150', 'placehoder image sample book','Novels');
+-- INSERT INTO books (title, author, ISBN, image_url, description, bookshelf) 
+-- VALUES ('Lab 12', 'Mr. Swearingen', '23434kjlkj', 'https://via.placeholder.com/150', 'placehoder image sample book','Novels');

@@ -11,8 +11,10 @@
   "author": "Code Fellows, LLC",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.2",
+    "pg": "^7.12.1",
     "superagent": "^3.8.3"
   }
 }
