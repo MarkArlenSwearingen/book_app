@@ -34,8 +34,10 @@
             <% bookList.forEach(function(result){ %>
               <li>
                 <img src="<%= result.image_url %>">
-
-              </li>
+                <p> <%= result.title %></p>
+                <p> <%= result.author %></p>
+                <p> <%= result.description %></p>
+             </li>
 
           <%  }) %>
           </ul>
