@@ -49,7 +49,19 @@ function Book(info) {
 }
 
 function newSearch(request, response) {
-  response.render('pages/index');
+  //create a SQL statement to get all books from the the database that were previously saved
+  let SQL = 'SELECT * FROM books';
+
+  // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
+  // let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
+
+  //render the books on an EJS page
+  return client.query(SQL)
+    .then (result => {
+      response.render('pages/index.ejs', {bookList: result.rows})
+    })
+    //catch any errors
+    .catch(err => handleError(err, message))
 }
 
 function createSearch(request, response) {
