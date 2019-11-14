@@ -56,18 +56,22 @@ function createSearch(request, response) {
     .catch(err => handleError(err, response));
 }
 
-function getBooks() {
+function getBooks(request, response) {
   //create a SQL statement to get all books in the the database that was saved previously
   
-  let SQL = Select * from books;
+  let SQL = 'SELECT * FROM books';
   
   // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
   
   let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
 
   //render the books on an EJS page
+  return client.query(SQL);
+    .then result => {
+    } res.render('pages/index.ejs', {results: result.rows})  //define results varaible
 
   //catch any errors
+  .catch(err => handleError(err, message))
 }
 
 function createBook() {
@@ -89,11 +93,22 @@ function createBook() {
     )
 }
 
-function getOneBook() {
+function getOneBook(request, response) {
   //use the id passed in from the front-end (ejs form) 
-
+//get bookshelves
+  let SQL = 'SELECT * FROM books WHERE ID = $1'
+  let values = 
+  client.query(SQL, values)
+  .then(result => response.render('pages/books/show' {books: result.row(0), bookshelves: shelves.rows})
+  )
+  .catch(handleError);
 }
 
 function handleError(error, response) {
   response.render('pages/error', { error: error });
 }
+
+function getBookShelves() {
+  let SQL = 'SELECT DISTINCT bookshelf from books ORDER BY bookshelf';
+  return client.query(SQL);
+};
