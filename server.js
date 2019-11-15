@@ -122,7 +122,7 @@ function getOneBook(request, response) {
       let values = [request.params.id];
       console.log(values);
       client.query(SQL, values)
-        .then(result => response.render('pages/books/show' , {books: result.rows[0], bookshelves: shelves.rows})
+        .then(result => response.render('pages/books/show' , {book: result.rows[0], bookshelves: shelves.rows})
         )
         // .then(result => console.log(result) )
     })
