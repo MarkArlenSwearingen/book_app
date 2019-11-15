@@ -1,6 +1,11 @@
-<!-- EJS Partial for section.  Used in views/pages/books/show.ejs -->
-<img src=<%= searchResults.book.image_url %>>
-<h3><%= title %></h3>
-<span><%= book.author %></span>
-<li data-book-id="<%= book.isbn %>"></li>
-<p class="desc"><%= book.description %></p>    
+
+
+<section>
+  <ul>
+      <h3><%= book.title %></h3>
+      <span><%= book.author %></span>
+      <li data-book-id="<%= book.isbn %>"></li>
+      <p class="desc"><%= book.description %></p> 
+  </ul>
+</section><img src=<%= book.image_url %>>
+   
