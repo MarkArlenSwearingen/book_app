@@ -28,7 +28,7 @@ app.get('/', getBooks) //define route to get all books
 app.get('/searches/new', newSearch);
 app.post('/searches', createSearch);
 // app.post('/books', createBook)
-// app.get('/books/:id', getOneBook);
+app.get('/books/:id', getOneBook);
 
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -78,9 +78,9 @@ function createSearch(request, response) {
 
 function getBooks(request, response) {
   //create a SQL statement to get all books in the the database that was saved previously
-  
+
   let SQL = 'SELECT * FROM books';
-  
+
   // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
   
   let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
@@ -91,7 +91,7 @@ function getBooks(request, response) {
       response.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
     })
   //catch any errors
-  .catch(err => handleError(err, message))
+    .catch(err => handleError(err, message))
 }
 
 // function createBook() {
@@ -113,16 +113,21 @@ function getBooks(request, response) {
 //     )
 // }
 
-// function getOneBook(request, response) {
-//   //use the id passed in from the front-end (ejs form)
-// //get bookshelves
-//   let SQL = 'SELECT * FROM books WHERE ID = $1'
-//   let values = 
-//   client.query(SQL, values)
-//     .then(result => response.render('pages/books/show' , {books: result.row(0), bookshelves: shelves.rows})
-//     )
-//     .catch(handleError);
-// }
+function getOneBook(request, response) {
+  //use the id passed in from the front-end (ejs form)
+//get bookshelves
+  getBookShelves()
+    .then(shelves => {
+      let SQL = 'SELECT * FROM books WHERE ID = $1';
+      let values = [request.params.id];
+      console.log(values);
+      client.query(SQL, values)
+        .then(result => response.render('pages/books/show' , {books: result.rows[0], bookshelves: shelves.rows})
+        )
+        // .then(result => console.log(result) )
+    })
+    .catch(handleError);
+}
 
 function handleError(error, response) {
   response.render('pages/error', { error: error });
@@ -131,4 +136,4 @@ function handleError(error, response) {
 function getBookShelves() {
   let SQL = 'SELECT DISTINCT bookshelf from books ORDER BY bookshelf';
   return client.query(SQL);
-};
+}
