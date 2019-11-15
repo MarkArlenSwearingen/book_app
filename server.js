@@ -78,16 +78,15 @@ function createSearch(request, response) {
 
 function getBooks(request, response) {
   //create a SQL statement to get all books in the the database that was saved previously
-
   let SQL = 'SELECT * FROM books';
 
   // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
-  
   let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
 
   //render the books on an EJS page
   return client.query(SQL)
     .then (result => {
+//TODO: take result to determine if rows exist to render response or render search pages
       response.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
     })
   //catch any errors
