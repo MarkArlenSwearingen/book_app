@@ -38,8 +38,10 @@
                 <p> <%= result.author %></p>
                 <p> <%= result.description %></p>
              </li>
+             <button ><a href="/books/<%= result.id %>">Select This Book</a></button>
 
           <%  }) %>
+          
           </ul>
           <h2> Total Books:  <%= bookList.length %></h2> 
     </main>
