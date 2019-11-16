@@ -28,6 +28,10 @@ app.get('/searches/new', newSearch);
 app.post('/searches', createSearch);
 app.post('/books', createBook);
 app.get('/books/:id', getOneBook);
+app.put('/books/:id', updateBook);
+app.delete('/books/:id', deleteBook)
+
+
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -70,6 +74,7 @@ function createSearch(request, response) {
   superagent.get(url)
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
     .then(results => response.render('pages/searches/show.ejs', { searchResults: results }))
+    //DRY catch to .catch(handleError);
     .catch(err => handleError(err, response));
 }
 
@@ -96,18 +101,19 @@ function getBooks(request, response) {
 function createBook(request, response) {
   let {title, author, isbn, image_url, description, bookshelf} = request.body;
   //deconstruct insert statement
-  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
+  let SQL = 'INSERT INTO books (title, author, ISBN, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
 
   let values= (title, author, isbn, image_url, description, bookshelf);
   //return id of book back to calling function and redirect to book detail page/route
   return clientInformation.query(SQL, values)
     .then( () => {
-      SQL = 'SELECT * FROM books WHERE ISBN = $1';
-      values = [request.body.isbn];
+      SQL = 'SELECT * FROM books WHERE ID = $1';
+      values = [request.body.id];
       return client.query(SQL, values)
         .then (response.redirect('/books/$(result.rows(0).id}'))
     }
     )
+    .catch(handleError);
 }
 
 //(C) app.get('/books/:id', getOneBook); uses pages/books/show.ejs to render response
@@ -123,6 +129,17 @@ function getOneBook(request, response) {
     })
     .catch(handleError);
 }
+
+function updateBook(request, response){
+//Create update book function
+//  route is app.put('/books/:id', updateBook);
+}
+
+function deleteBook(request, response){
+  //Create delete book function
+//route is app.delete('/books/:id', deleteBook)
+}
+
 
 //Handle errors function
 function handleError(error, response) {

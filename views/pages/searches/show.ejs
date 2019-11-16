@@ -38,11 +38,11 @@
           <li data-book-id="<%= book.isbn %>">
            
               <img src=<%= book.image_url %>>
-              <section>
+              <!-- <section>
                 <h3><%= book.title %></h3>
                 <span><%= book.author %></span>
                 <p class="desc"><%= book.description %></p>        
-              </section>
+              </section> -->
           </li>
           </div>
           <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_form_submit -->
@@ -51,7 +51,7 @@
           <form action="/books" method="POST" class="hide-add-book-form">
             <input input type="text" name="title" id="title" value="<%= book.title %>">
             <input input type="text" name="author" id="author" value="<%= book.author %>">
-            <input input type="text" name="ISBN" id="ISBN" value="<%= book.ISBN %>">
+            <input input type="text" name="ISBN" id="ISBN" value="<%= book.isbn %>">
             <input input type="text" name="image_url" id="image_url" value="<%= book.image_url %>">
             <input input type="text" name="description" id="description" value="<%= book.description %>">
             <input input type="text" name="bookshelf" id="bookshelf" value="<%= book.bookshelf %>">
