@@ -101,19 +101,19 @@ function getBooks(request, response) {
 function createBook(request, response) {
   let {title, author, isbn, image_url, description, bookshelf} = request.body;
   //deconstruct insert statement
-  let SQL = 'INSERT INTO books (title, author, ISBN, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
+  let SQL = 'INSERT INTO books (title, author, ISBN, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6) RETURNING id;';
 
-  let values= (title, author, isbn, image_url, description, bookshelf);
+  let values= [title, author, isbn, image_url, description, bookshelf];
   //return id of book back to calling function and redirect to book detail page/route
-  return clientInformation.query(SQL, values)
+  return client.query(SQL, values)
     .then( () => {
-      SQL = 'SELECT * FROM books WHERE ID = $1';
+      SQL = 'SELECT * FROM books WHERE id = $1';
       values = [request.body.id];
       return client.query(SQL, values)
-        .then (response.redirect('/books/$(result.rows(0).id}'))
+        .then (response.redirect('/books/$(result.rows[0].id}'))
     }
     )
-    .catch(handleError);
+    .catch(err => handleError(err, response));
 }
 
 //(C) app.get('/books/:id', getOneBook); uses pages/books/show.ejs to render response
