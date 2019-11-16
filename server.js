@@ -61,7 +61,7 @@ function newSearch(request, response) {
       response.render('pages/index.ejs', {bookList: result.rows})
     })
     //catch any errors
-    .catch(err => handleError(err, message))
+    .catch(handleError);
 }
 
 function createSearch(request, response) {
@@ -72,7 +72,7 @@ function createSearch(request, response) {
 
   superagent.get(url)
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
-    .then(results => response.render('pages/searches/show', { searchResults: results }))
+    .then(results => response.render('pages/searches/show.ejs', { searchResults: results }))
     .catch(err => handleError(err, response));
 }
 
@@ -81,16 +81,23 @@ function getBooks(request, response) {
   let SQL = 'SELECT * FROM books';
 
   // INSERT INTO books (title, author, ISBN, image_url, description) VALUES($1, $2, $3, $4, $5);
-  let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
+  // let values = ['my title 2', 'me too', 'isbn num', 'httpme', 'describe the second book', 'Novels'];
 
   //render the books on an EJS page
   return client.query(SQL)
     .then (result => {
+      //test for TODO
+      if (result.rowCount > 0) {
+        console.log('DBreturn')
+        response.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
+      } else {
+        console.log('API search')
+        response.redirect('/searches/new')
+      }
 //TODO: take result to determine if rows exist to render response or render search pages
-      response.render('pages/index.ejs', {bookList: result.rows})  //define results varaible
     })
   //catch any errors
-    .catch(err => handleError(err, message))
+    .catch(handleError);
 }
 
 // function createBook() {
