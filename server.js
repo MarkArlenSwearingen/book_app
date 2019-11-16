@@ -105,14 +105,8 @@ function createBook(request, response) {
 
   let values= [title, author, isbn, image_url, description, bookshelf];
   //return id of book back to calling function and redirect to book detail page/route
-  return client.query(SQL, values)
-    .then( () => {
-      SQL = 'SELECT * FROM books WHERE id = $1';
-      values = [request.body.id];
-      return client.query(SQL, values)
-        .then (response.redirect('/books/$(result.rows[0].id}'))
-    }
-    )
+  client.query(SQL, values)
+    .then(result => response.redirect(`/books/${result.rows[0].id}`))
     .catch(err => handleError(err, response));
 }
 
