@@ -47,7 +47,7 @@
           </div>
           <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_form_submit -->
           <!-- https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_hide_show -->
-          <button id="add-book-form-button"><a href="/books/<%= book.id %>">Select This Book</a></button>
+          <button class="add-book-form-button"><a href="/books/<%= book.id %>">Select This Book</a></button>
           <form action="/books" method="POST" class="hide-add-book-form">
             <input input type="text" name="title" id="title" value="<%= book.title %>">
             <input input type="text" name="author" id="author" value="<%= book.author %>">

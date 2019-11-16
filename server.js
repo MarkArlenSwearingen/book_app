@@ -57,7 +57,7 @@ function newSearch(request, response) {
 
   return client.query(SQL)
     .then (result => {
-      response.render('pages/index.ejs', {bookList: result.rows})
+      response.render('pages/searches/search.ejs', {bookList: result.rows})
     })
     //catch any errors
     .catch(handleError);
@@ -150,12 +150,5 @@ function getBookShelves() {
 // https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_hide_show
 // https://stackoverflow.com/questions/30584700/jquery-with-ejs/42221676
 
-//jQuery to hide search information and show the add book form
-// $(document).ready(function(){
-//   $('#add-book-form-button').click(function(){
-//     $('.hide-add-book-form').show();
-//     $('.book-container').hide();
-//   });
-// });
 
 
