@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 app.get('/', getBooks) //define route to get all books
 app.get('/searches/new', newSearch);
 app.post('/searches', createSearch);
-// app.post('/books', createBook);
+app.post('/books', createBook);
 app.get('/books/:id', getOneBook);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -93,24 +93,22 @@ function getBooks(request, response) {
 }
 
 //App.POST to /books route
-// function createBook() {
-//   //create a SQL statement to insert book
-//   //return id of book back to calling function
+function createBook(request, response) {
+  let {title, author, isbn, image_url, description, bookshelf} = request.body;
+  //deconstruct insert statement
+  let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
 
-//   let {title, author, isbn, image_url, description} = request.body;
-//   let SQL = 'INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES($1,$2, $3, $4, $5, $6)'
-
-//   let values= (title, author, isbn, image_url, description, normalizedBookshelf);
-
-//   return clientInformation.query(SQL, values)
-//     .then( () => {
-//         SQL = 'SELECT * FROM books WHERE ISBN = $1';
-//         values  = [request.body.isbn];
-//         return client.query(SQL, values)
-//         .then (result=> response.redirect('/books/$(result.rows(0).id}'))
-//     }
-//     )
-// }
+  let values= (title, author, isbn, image_url, description, bookshelf);
+  //return id of book back to calling function and redirect to book detail page/route
+  return clientInformation.query(SQL, values)
+    .then( () => {
+      SQL = 'SELECT * FROM books WHERE ISBN = $1';
+      values = [request.body.isbn];
+      return client.query(SQL, values)
+        .then (response.redirect('/books/$(result.rows(0).id}'))
+    }
+    )
+}
 
 //(C) app.get('/books/:id', getOneBook); uses pages/books/show.ejs to render response
 //use the id passed in from the front-end (ejs form)
@@ -142,11 +140,11 @@ function getBookShelves() {
 // https://stackoverflow.com/questions/30584700/jquery-with-ejs/42221676
 
 //jQuery to hide search information and show the add book form
-$(document).ready(function(){
-  $('#add-book-form-button').click(function(){
-    $('.hide-add-book-form').show();
-    $('.book-container').hide();
-  });
-});
+// $(document).ready(function(){
+//   $('#add-book-form-button').click(function(){
+//     $('.hide-add-book-form').show();
+//     $('.book-container').hide();
+//   });
+// });
 
 
