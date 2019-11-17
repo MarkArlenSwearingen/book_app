@@ -2,6 +2,7 @@
 
 // Application Dependencies
 const express = require('express');
+const methodOverride = require('method-override');
 const superagent = require('superagent');
 const pg = require('pg');
 require('dotenv').config();
@@ -31,11 +32,21 @@ app.get('/books/:id', getOneBook);
 app.put('/books/:id', updateBook);
 app.delete('/books/:id', deleteBook)
 
-
-
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+
+//Middleware
+//Logic for using method override in the middleware to change the PUT request into a POST
+app.use(express.urlencoded({extended: true}));
+//https://www.npmjs.com/package/method-override
+app.use(methodOverride((request, response) => {
+  if (request.body && typeof request.body === 'object' && '_method' in request.body){
+    let method = request.body_method;
+    delete request.body._method;
+    return method;
+  }
+}))
 
 // HELPER FUNCTIONS
 function Book(info) {
