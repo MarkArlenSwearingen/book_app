@@ -53,14 +53,14 @@
             <input input type="text" name="author" id="author" value="<%= book.author %>">
             <input input type="text" name="ISBN" id="ISBN" value="<%= book.isbn %>">
             <input input type="text" name="image_url" id="image_url" value="<%= book.image_url %>">
-            <input input type="text" name="description" id="description" value="<%= book.description %>">
+            <textarea name="description" placeholder="Book description" cols="30" rows="10"><%= book.description %></textarea> 
             <input input type="text" name="bookshelf" id="bookshelf" placeholder="Enter bookshelf name" value="<%= book.bookshelf %>">
             <input type="submit" value="Add to Database">
          </form>
 
          <button class="show-add-book-form">Add Book</button>
 
-        <% }) %>
+        <% }) %
       </ul>
     </main>
     <footer>

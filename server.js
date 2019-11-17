@@ -9,7 +9,7 @@ require('dotenv').config();
 
 // Application Setup
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 // Application Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +37,7 @@ app.get('*', (request, response) => response.status(404).send('This route does n
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 //Middleware
-//Logic for using method override in the middleware to change the PUT request into a POST
+//Logic for using method override in the middleware to change the POST request into a PUT
 app.use(express.urlencoded({extended: true}));
 //https://www.npmjs.com/package/method-override
 app.use(methodOverride((request, response) => {
@@ -47,6 +47,8 @@ app.use(methodOverride((request, response) => {
     return method;
   }
 }))
+
+
 
 // HELPER FUNCTIONS
 function Book(info) {
@@ -137,7 +139,16 @@ function getOneBook(request, response) {
 
 function updateBook(request, response){
 //Create update book function
-//  route is app.put('/books/:id', updateBook);
+//  route is ('/books/:id', updateBook); app post to app.put
+  let {title, author, isbn, image_url, description, bookshelf} = request.body;
+
+  let SQL = 'UPDATE tasks SET title=$1, author=$2, ISBN=$3, image_URL=$4, description=$5, bookshelf=$6 WHERE id=$7';
+
+  let values = [title, author, isbn, image_url, description, bookshelf, request.params.id];
+
+  client.query(SQL, values)
+    .then(response.redirect(`/books/${request.params.id}`))
+    .catch(handleError);
 }
 
 function deleteBook(request, response){
