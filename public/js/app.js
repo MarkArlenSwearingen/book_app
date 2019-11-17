@@ -1,4 +1,4 @@
-
+'use strict'
 //jQuery to hide search information and show the add book form
 $(document).ready(function(){
   $('.hide-add-book-form').hide();

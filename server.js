@@ -154,6 +154,11 @@ function updateBook(request, response){
 function deleteBook(request, response){
   //Create delete book function
 //route is app.delete('/books/:id', deleteBook)
+  let SQL = 'DELETE FROM books WHERE id=$1';
+  let values = [request.params.id];
+  return client.query(SQL, values)
+    .then(response.redirect('/'))
+    .catch(handleError);
 }
 
 
