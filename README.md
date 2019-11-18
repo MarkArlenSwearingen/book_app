@@ -14,7 +14,9 @@ The architecture is HTML, CSS and javaScript with the use of express, ejs and su
 ## Change Log
 Version**: 1.0.0 (Lab 11)
 Includes features 1-3 from the Trelloboard from lab 11.
-Verion: 1.1.0 (Lab 12 and 13.)
+Version: 1.1.0 (Lab 12 and 13.)
+Version: 1.1.1 Lab 13 Delete added
+
 
 ## Credits and Collaborations
 Lab partners lab 12 David and Holly;
@@ -78,6 +80,8 @@ Number and name of feature: Remove Book
 Estimate of time needed to complete: 1 hour
 Start time: __12:45___
 Finish time: _1:15___
+Start time: __7:15___
+Finish time: _8:30___
 
-Actual time needed to complete: _1 hour____
+Actual time needed to complete:2 hours 15 minutes
 
