@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 // Application Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 
 // Database
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -30,7 +31,8 @@ app.post('/searches', createSearch);
 app.post('/books', createBook);
 app.get('/books/:id', getOneBook);
 app.put('/books/:id', updateBook);
-app.delete('/books/:id', deleteBook)
+app.delete('/books/:id', deleteBook);
+app.get('/error', handleError);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -47,8 +49,6 @@ app.use(methodOverride((request, response) => {
     return method;
   }
 }))
-
-
 
 // HELPER FUNCTIONS
 function Book(info) {
@@ -152,15 +152,12 @@ function updateBook(request, response){
 }
 
 function deleteBook(request, response){
-  //Create delete book function
-//route is app.delete('/books/:id', deleteBook)
   let SQL = 'DELETE FROM books WHERE id=$1';
   let values = [request.params.id];
   return client.query(SQL, values)
     .then(response.redirect('/'))
-    .catch(handleError);
+    .catch(err => handleError(err, response));
 }
-
 
 //Handle errors function
 function handleError(error, response) {
