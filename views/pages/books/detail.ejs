@@ -1,4 +1,4 @@
-
+<!-- https://dev.to/moz5691/method-override-for-put-and-delete-in-html-3fp2 -->
 
 <section>
 
@@ -12,6 +12,12 @@
       </section>
   </li>
   <button ><a href="/books/<%= book.id %>">Select This Book</a></button>
+  <div>
+    <form action="/books/<%= book.id %>?_method=DELETE">
+    <input type="hidden" name="_method" value='DELETE'>
+    <input type="submit" name="Delete" value="Delete this Book" formmethod="POST">
+    </form>
+  </div>
   <div>
     <button ><a href="/">Book List</a></button>
   </div>
