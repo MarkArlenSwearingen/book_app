@@ -88,7 +88,7 @@ function createSearch(request, response) {
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
     .then(results => response.render('pages/searches/show.ejs', { searchResults: results }))
     //DRY catch to .catch(handleError);
-    .catch(err => handleError(err, response));
+    .catch(handleError);
 }
 
 //(A)The original request to get books that checks for saved data then renders the data using index.ejs
